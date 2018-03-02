@@ -70,6 +70,7 @@ IXSection::IXSection( IType::Experiment exp )
   cout << "" << endl;
   
   D = myconst.mn-myconst.mp;
+  M = ( myconst.mn+myconst.mp )/2.0;
   
 }
 
@@ -78,8 +79,10 @@ Double_t IXSection::GetValue( IType::Model mod, Double_t Enu )
   Double_t result = -999.0;
   
   if ( mod==IType::IBD0 ) result = IBD0( Enu );
-      
-    //; VOGEL84, VOGEL99, STRUMIA)
+
+  if ( mod==IType::VOGEL99 ) result = VOGEL99( Enu );
+  
+  //; VOGEL84, VOGEL99, STRUMIA)
 
   return result;
   
@@ -99,6 +102,44 @@ Double_t IXSection::IBD0( Double_t Enu )
     }
   
   return result;
-  
+    
+}
+
+Double_t IXSection::VOGEL99( Double_t Enu )
+{
+  Double_t result = 0.0;
+
+  if ( Enu>thr )
+    {
+      Double_t Ee0 = Enu-D;
+      Double_t pe0 = sqrt( pow( Ee0, 2.0 )-pow( myconst.me, 2.0 ) );
+      Double_t ve0 = pe0/Ee0;
+      
+      Int_t nsteps = ( 2.0 )/( 0.0001*0.8 );
+      Double_t redstep = ( 2.0 )/( nsteps*1.0 );
+      
+      for ( Int_t j=0; j<nsteps; j++ )
+	{
+	  Double_t costh = ( -1.0+redstep/2.0 )+1.0*j*redstep;
+	  
+	  Double_t Ee1 = Ee0*( 1.0-Enu/M*( 1.0 - ve0*costh ) ) - ( pow( D, 2.0 )-pow( myconst.me, 2.0 ) )/( 2.0*M );
+	  Double_t pe1 = sqrt( pow( Ee1, 2.0 )-pow( myconst.me, 2.0 ) );
+	  Double_t ve1 = pe1/Ee1;
+	  
+	  Double_t Gamma = 0.0;
+	  Gamma += 2.0*( 1.0+myconst.mu )*myconst.lambda*( ( 2.0*Ee0+D )*( 1.0-ve0*costh ) - pow( myconst.me, 2.0 )/Ee0 );
+	  Gamma += ( 1.0+myconst.lambda2 )*( D*( 1.0+ve0*costh ) + pow( myconst.me, 2.0 )/Ee0 );
+	  Gamma += ( 1.0+3.0*myconst.lambda2 )*( ( Ee0+D )*( 1.0-costh/ve0 ) - D );
+	  Gamma += ( 1.0-myconst.lambda2 )*( ( Ee0+D )*( 1.0-costh/ve0 ) - D )*ve0*costh;
+	  
+	  Double_t si = 1.0/2.0*( 1.0+( 1.0-myconst.lambda2 )/( 1.0+3.0*myconst.lambda2 )*ve1*costh )*Ee1*pe1 - 1.0/2.0/( 1.0+3.0*myconst.lambda2 )*( Gamma/M )*Ee0*pe0;
+	  
+	  result += si*redstep;
+
+	}
+
+    }
+
+  return result;
   
 }

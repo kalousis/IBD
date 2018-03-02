@@ -28,6 +28,7 @@ class IXSection : public TObject
   Double_t GetValue( IType::Model mod, Double_t Enu );
 
   Double_t IBD0( Double_t Enu );
+  Double_t VOGEL99( Double_t Enu );
 
   Double_t kappa;
   Double_t kappa2;
@@ -35,6 +36,7 @@ class IXSection : public TObject
   Double_t thr;
   
   Double_t D;
+  Double_t M;
   
   ClassDef( IXSection, 1 )
         
