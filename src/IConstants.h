@@ -69,6 +69,9 @@ class IConstants : public TObject
   // Ratio of axial-vector to vector n couplings
   Double_t dlambda;
   // Error of lambda
+
+  Double_t lambda2;
+  // Square of lambda
   
   ClassDef( IConstants, 1 )
 

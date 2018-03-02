@@ -56,7 +56,9 @@ IConstants::IConstants()
   lambda = 1.2723; // I removed the "-" sign here !
   dlambda = 0.0023; 
   // PDG 2017
-      
+  
+  lambda2 = pow( lambda, 2.0 );
+  
 }
 
 IConstants::~IConstants()
