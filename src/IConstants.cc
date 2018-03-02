@@ -34,7 +34,8 @@ namespace IConstants
     
   Double_t Vud = 0.97425;
   // PDG 2017 excluding measurements from tau_n
-
+  
+  
   
   Double_t fR = 1.71517;
   Double_t dfR = 0.00009; 
@@ -47,5 +48,9 @@ namespace IConstants
   Double_t tau = 880.2;
   Double_t dtau = 1.0; 
   // In sec, PDG 2017
+  
+  Double_t lambda = 1.2723; // I removed the "-" sign here !
+  Double_t dlambda = 0.0023; 
+  // PDG 2017
   
 }

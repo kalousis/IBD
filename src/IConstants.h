@@ -35,7 +35,7 @@ namespace IConstants
 
   extern Double_t Vud;
   // Cabibbo angle
-
+    
   extern Double_t fR;
   // Phase space factor including the Coulomb, weak magnetism, recoil, and outer radiative corrections
   extern Double_t dfR;
@@ -45,7 +45,12 @@ namespace IConstants
   // Inner radiative corrections
   extern Double_t dDR;
   // Error
-      
+    
+  Double_t lambda;
+  // Ratio of axial-vector to vector n couplings
+  Double_t dlambda;
+  // Error of lambda
+    
 };
 
 #endif
