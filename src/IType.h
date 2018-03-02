@@ -4,7 +4,7 @@
 
 namespace IType
 {
-  enum Model { VOGEL84, VOGEL99, STRUMIA };
+  enum Model { IBD0, VOGEL84, VOGEL99, STRUMIA };
 
   enum Experiment { B4, RAA, TODAY };
   

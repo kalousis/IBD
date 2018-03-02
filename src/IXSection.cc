@@ -1,17 +1,17 @@
 
-#include "IExperiment.h"
+#include "IXSection.h"
 
 using namespace std;
 
-ClassImp( IExperiment )
+ClassImp( IXSection )
 
-IExperiment::IExperiment()
+IXSection::IXSection()
 {}
 
-IExperiment::~IExperiment()
+IXSection::~IXSection()
 {}
 
-IExperiment::IExperiment( IType::Experiment exp )
+IXSection::IXSection( IType::Experiment exp )
 {
   if ( exp==IType::B4 )
     {
@@ -63,5 +63,42 @@ IExperiment::IExperiment( IType::Experiment exp )
     
   cout << " Prefactor kappa ( Vud approach ) : " << kappa2 << endl; //" +/- " << dkappa2 << " cm^2/MeV^2 " << endl;
   cout << "" << endl;
+
+  thr = ( pow( myconst.mn+myconst.me, 2.0 )-pow( myconst.mp, 2.0 ) )/( 2.0*myconst.mp );
+  
+  cout << " Threshold : " << setprecision(8) << thr << " MeV " << endl;
+  cout << "" << endl;
+  
+  D = myconst.mn-myconst.mp;
+  
+}
+
+Double_t IXSection::GetValue( IType::Model mod, Double_t Enu )
+{
+  Double_t result = -999.0;
+  
+  if ( mod==IType::IBD0 ) result = IBD0( Enu );
+      
+    //; VOGEL84, VOGEL99, STRUMIA)
+
+  return result;
+  
+}
+
+Double_t IXSection::IBD0( Double_t Enu )
+{
+  Double_t result = 0.0;
+
+  if ( Enu>thr )
+    {
+      Double_t Ee = Enu-D;
+      Double_t pe = sqrt( pow( Ee, 2.0 )-pow( myconst.me, 2.0 ) );
+      
+      result = Ee*pe;
+
+    }
+  
+  return result;
+  
   
 }
